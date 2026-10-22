@@ -191,10 +191,13 @@ Une bonne demande donne l'objectif et le critère de réussite. Par exemple : aj
 
 ### MCP : brancher des outils
 
-Le protocole MCP permet de brancher des outils externes sur Claude Code : GitHub, une base de données, un navigateur. La commande claude mcp add ajoute un serveur, claude mcp list les affiche. Claude peut alors lire vos issues ou interroger vos données directement.
+Le protocole MCP permet de brancher des outils externes sur Claude Code : GitHub, une base de données, un navigateur. Pour GitHub, la commande claude mcp add-json ajoute le serveur distant avec votre token personnel dans l'en-tête d'autorisation. Claude mcp list affiche les serveurs branchés. Claude peut alors lire vos issues ou interroger vos données directement.
 
 ```
-claude mcp add --transport http github https://api.githubcopilot.com/mcp/
+claude mcp add-json github '{"type":"http",
+  "url":"https://api.githubcopilot.com/mcp",
+  "headers":{"Authorization":"Bearer VOTRE_TOKEN_GITHUB"}}'
+
 claude mcp list
 ```
 
@@ -282,11 +285,14 @@ bug, amélioration ou question."""
 
 ### Ollama et Claude Code
 
-Les versions récentes d'Ollama exposent aussi une API compatible avec celle d'Anthropic. En pointant la variable ANTHROPIC BASE URL vers Ollama, on peut faire tourner Claude Code avec un modèle local. C'est pratique hors ligne, mais la qualité dépend fortement du modèle choisi.
+Ollama implémente aussi une partie de l'API Messages d'Anthropic. Définissez la variable ANTHROPIC AUTH TOKEN à ollama, une valeur obligatoire mais ignorée en local, et pointez ANTHROPIC BASE URL vers Ollama : Claude Code utilise alors un modèle local. C'est pratique hors ligne, mais la qualité dépend fortement du modèle choisi, et il doit savoir appeler des outils.
 
-- Les versions récentes d'Ollama exposent une API compatible Anthropic
-- ANTHROPIC_BASE_URL=http://localhost:11434 pour viser Ollama
-- Utile hors ligne ; qualité dépendante du modèle local
+```
+# Sous-ensemble de l'API Messages d'Anthropic
+export ANTHROPIC_AUTH_TOKEN=ollama  # requis, ignoré
+export ANTHROPIC_BASE_URL=http://localhost:11434
+claude --model llama3.2
+```
 
 **Exercice :** Télécharger un petit modèle, créer un Modelfile « résumeur d'issues » en français et l'appeler avec une requête HTTP.
 
