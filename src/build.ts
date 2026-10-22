@@ -2,9 +2,9 @@ import { chromium } from "playwright-core";
 import { $ } from "bun";
 import { COURS, MODULES, type Diapo, type Module } from "./cours";
 
-const RACINE = new URL("..", import.meta.url).pathname.replace(
-  /^\/([A-Za-z]:)/,
-  "$1",
+const RACINE = Bun.fileURLToPath(new URL("..", import.meta.url)).replaceAll(
+  "\\",
+  "/",
 );
 const SORTIE = `${RACINE}sortie`;
 const FFMPEG =
