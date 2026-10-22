@@ -1,0 +1,21 @@
+{
+  "name": "cours-ia",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "bun src/build.ts",
+    "texte": "bun src/build.ts --texte",
+    "check": "bun check",
+    "lint": "bun lint",
+    "fmt": "bun fmt ."
+  },
+  "peerDependencies": {
+    "typescript": "^7"
+  },
+  "dependencies": {
+    "playwright-core": "^1.64.1"
+  },
+  "devDependencies": {
+    "@types/bun": "npm:@aphrody/bun-types@^1.4.6-aphrody.3"
+  }
+}
